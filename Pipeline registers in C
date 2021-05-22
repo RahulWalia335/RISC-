@@ -1,0 +1,49 @@
+#define MAXMEMORY 65536 /* maximum number of data words in memory */
+#define NUMREGS 8 /* number of machine registers */
+#define ADD 0
+#define ADDI 1
+#define NAND 2
+#define LUI 3
+#define LW 4
+#define SW 5
+#define BEQ 6
+#define JALR 7
+#define NOP_INSTRUCTION 0x0000
+typedef struct IFIDStruct {
+ short instr;
+ short pcPlus1;
+} IFID_t;
+typedef struct IDEXStruct {
+ short instr;
+ short pcPlus1;
+ short readReg1;
+ short readReg2;
+ short offset;
+} IDEX_t;
+typedef struct EXMEMStruct {
+ short instr;
+ short branchTarget;
+ short aluResult;
+ short readReg2;
+} EXMEM_t;
+typedef struct MEMWBStruct {
+ short instr;
+ short writeData;
+} MEMWB_t;
+typedef struct WBENDStruct {
+ short instr;
+ short writeData;
+} WBEND_t;
+typedef struct stateStruct {
+ short pc;
+ short instrMem[MAXMEMORY];
+ short dataMem[MAXMEMORY];
+ short reg[NUMREGS];
+ short numMemory;
+ IFID_t IFID;
+ IDEX_t IDEX;
+ EXMEM_t EXMEM;
+ MEMWB_t MEMWB;
+ WBEND_t WBEND;
+ int cycles; /* number of cycles run so far */
+} state_t;
